@@ -1,22 +1,21 @@
 import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import thunk from 'redux-thunk';
 import {persistReducer, persistStore} from 'redux-persist';
-import {uiReducer, userReducer} from './reducers';
-
-const setMainRoot = () => {};
-
-const setAuthRoot = () => {};
+import storage from 'redux-persist/lib/storage';
+import {authReducer, postReducer, uiReducer, userReducer} from './reducers';
 
 const persistConfig = {
   key: 'root',
-  storage: localStorage,
-  whitelist: ['user'],
+  storage,
+  whitelist: ['user', 'auth'],
 };
 
 const initStore = () => {
   const reducers = {
+    auth: authReducer,
     ui: uiReducer,
     user: userReducer,
+    post: postReducer,
   };
   const middleware = [applyMiddleware(...[thunk])];
 
@@ -24,18 +23,21 @@ const initStore = () => {
 
   const persistedReducer = persistReducer(persistConfig, reducer);
 
-  const store = createStore(persistedReducer, {}, compose(...middleware));
+  const composeEnhancers =
+    (process.env.NODE_ENV !== 'production' &&
+      typeof window !== 'undefined' &&
+      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+    compose;
 
-  persistStore(store, null, () => {
-    console.log('newstore', store.getState());
+  const store = createStore(
+    persistedReducer,
+    {},
+    composeEnhancers(...middleware),
+  );
 
-    if (store.getState().user.isLoggedIn) {
-      setMainRoot();
-    } else {
-      setAuthRoot();
-    }
-  });
-  return store;
+  const persistor = persistStore(store);
+
+  return {store, persistor};
 };
 
 export default initStore;
