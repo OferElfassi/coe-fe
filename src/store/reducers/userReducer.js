@@ -2,47 +2,53 @@ import produce from 'immer';
 import * as actionTypes from '../actionTypes';
 
 /**
- signupInfo definition
- @typedef {Object} signupInfo
- @property {string} fullName
- @property {string} email
- @property {string} password
- @property {string} address
- @property {string} phone
- @property {string} organization
- @property {boolean} isManager
+ imageObj definition
+ @typedef {Object} imageObj
+ @property {string} url
+ @property {string} key
+ @property {string} id
  */
 
 /**
  userInfo definition
  @typedef {Object} userInfo
  @property {string} fullName
- @property {string} email
- @property {string} userId
- @property {string} address
- @property {string} phone
- @property {boolean} isAdmin
- @property {string} token
+ @property {string} firstname
+ @property {string} lastname
+ @property {imageObj} image
+ @property {string} id
  */
 
 /**
  userState definition
  @typedef {Object} userState
- @property {boolean} isLoggedIn
- @property {userInfo} userInfo
+ @property {string} fullName
+ @property {string} firstname
+ @property {string} lastname
+ @property {string} email
+ @property {string} id
+ @property {string} about
+ @property {boolean} isAdmin
+ @property {string[]} followers
+ @property {string[]} following
+ @property {string[]} notifications
+ @property {string[]} posts
+ @property {imageObj} image
  */
 
 const initialState = {
-  isLoggedIn: false,
-  userInfo: {
-    fullName: '',
-    email: '',
-    userId: '',
-    address: '',
-    phone: '',
-    isAdmin: false,
-    token: '',
-  },
+  fullName: '',
+  firstname: '',
+  lastname: '',
+  email: '',
+  id: '',
+  about: '',
+  isAdmin: false,
+  followers: [],
+  following: [],
+  notifications: [],
+  posts: [],
+  image: {url: '', key: '', id: ''},
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -50,14 +56,13 @@ export const userReducer = produce(
   (/** userState */ draft, {type, payload}) => {
     switch (type) {
       case actionTypes.SET_USER:
-        Object.assign(draft.userInfo, payload);
-        // eslint-disable-next-line no-param-reassign
-        draft.isLoggedIn = true;
+        Object.assign(draft, payload.userInfo);
         break;
-      case actionTypes.LOG_OUT:
-        Object.assign(draft.userInfo, initialState.userInfo);
-        // eslint-disable-next-line no-param-reassign
-        draft.isLoggedIn = false;
+      case actionTypes.RESET_USER:
+        draft = initialState;
+        break;
+      case actionTypes.SET_USER_IMAGE:
+        draft.image = payload.image;
         break;
       default:
         break;
