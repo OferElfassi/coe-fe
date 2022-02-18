@@ -3,21 +3,25 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import {Provider} from 'react-redux';
+import {BrowserRouter} from 'react-router-dom';
+import {PersistGate} from 'redux-persist/integration/react';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import initStore from './store/store';
 import theme from './theme/theme';
 
-const store = initStore();
+const {store, persistor} = initStore();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </ThemeProvider>
-  </React.StrictMode>,
+  <BrowserRouter>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </PersistGate>
+    </Provider>
+  </BrowserRouter>,
   document.getElementById('root'),
 );
 
