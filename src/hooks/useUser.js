@@ -7,25 +7,19 @@ export default function useUser() {
   const values = useSelector(store => store.user);
   const dispatch = useDispatch();
 
-  const login = ({email, password}) => {
-    dispatch(userActions.login({email, password}));
+  const updateInfo = userInfo => {
+    dispatch(userActions.updateInfo(userInfo));
   };
-
-  const signup = (/** userState */ signupInfo) => {
-    dispatch(userActions.signup(signupInfo));
-  };
-
-  const handleLogOut = () => {
-    dispatch(userActions.handleLogOut());
+  const updateProfilePic = userInfo => {
+    dispatch(userActions.updateProfilePic(userInfo));
   };
 
   return {
     /** @type {userState} */
     userState: values,
     userActions: {
-      login: useCallback(login, []),
-      signup: useCallback(signup, []),
-      handleLogOut: useCallback(handleLogOut, []),
+      updateInfo: useCallback(updateInfo, []),
+      updateProfilePic: useCallback(updateProfilePic, []),
     },
   };
 }
