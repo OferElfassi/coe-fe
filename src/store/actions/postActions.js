@@ -48,7 +48,6 @@ export const getSinglePost =
     try {
       dispatch(uiActions.toggleLoader(true));
       const postRes = await postApi.getPost(postId);
-      console.log({postRes});
       dispatch(setSinglePost(postRes.data));
     } catch (e) {
       navigateFn();
@@ -66,8 +65,6 @@ export const getFeedPageData = () => async (dispatch, getState) => {
     dispatch(uiActions.toggleLoader(true));
     const postsRes = await postApi.getPosts();
     const hashtagsRes = await hashtagApi.getHashtags();
-    console.log({postsRes});
-    console.log({hashtagsRes});
     dispatch(setPosts(postsRes.data));
     dispatch(setHashTags(hashtagsRes.data));
   } catch (e) {
@@ -86,7 +83,6 @@ export const addComment = (content, postId) => async (dispatch, getState) => {
     dispatch(uiActions.toggleLoader(true));
     const newCommentRes = await postApi.postComment(content, postId, token);
     const postIndex = posts.findIndex(p => p.id === postId);
-    console.log(newCommentRes.data);
     if (postIndex !== -1) {
       dispatch(insertComment(newCommentRes.data, postIndex));
     }
@@ -155,7 +151,6 @@ export const postNewImage = pic => async (dispatch, getState) => {
     } = getState();
     dispatch(uiActions.toggleLoader(true));
     const newImageRes = await postApi.postImage(pic, token);
-    console.log({newImageRes});
     dispatch(setNewPost(newImageRes.data));
     dispatch(uiActions.toggleNewPostModal(true));
   } catch (e) {

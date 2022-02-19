@@ -9,12 +9,7 @@ import NewPostModal from './components/layout/Header/Upload/NewPostModal/NewPost
 
 function App() {
   const {authState} = useAuth();
-  const {uiState} = useUi();
   const {userState} = useUser();
-  useEffect(() => {
-    console.log(uiState.routingState.activePage);
-  }, [uiState.routingState.activePage]);
-
   return (
     <div className="App">
       <Router isAuth={authState.isAuth} isManager={userState.isManager} />

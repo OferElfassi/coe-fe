@@ -15,7 +15,6 @@ export const login =
       dispatch(uiActions.toggleLoader(true));
       const res = await authApi.login(email, password);
       const loginData = res.data;
-      console.log({loginData});
       dispatch(setAuth(true, loginData.token));
       dispatch(userActions.setUser(loginData.user));
     } catch (e) {
@@ -44,6 +43,5 @@ export const signup =
       );
     } catch (e) {
       dispatch(uiActions.setErrorMessage(e.message, 'Signup Error'));
-      console.warn(e);
     }
   };

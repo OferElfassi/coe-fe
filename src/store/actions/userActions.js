@@ -40,9 +40,7 @@ export const updateInfo = userInfo => async (dispatch, getState) => {
       auth: {token},
     } = getState();
     dispatch(uiActions.toggleLoader(true));
-    console.log('sending', {id, userInfo, token});
     const res = await userApi.updateUserInfo(id, userInfo, token);
-    console.log(res);
     dispatch(
       setUser({
         ...userInfo,
@@ -77,9 +75,7 @@ export const updateProfilePic = file => async (dispatch, getState) => {
       auth: {token},
     } = getState();
     dispatch(uiActions.toggleLoader(true));
-    console.log(file);
     const res = await userApi.updateProfilePic(file, token);
-    console.log(res);
     dispatch(setUserImage(res.data));
     dispatch(uiActions.setTimedMessage('', 'Update Image success', 'success'));
   } catch (e) {
@@ -96,10 +92,8 @@ export const getUsers = () => async (dispatch, getState) => {
     } = getState();
     dispatch(uiActions.toggleLoader(true));
     const usersRes = await userApi.getUsers(token);
-    console.log(usersRes);
     dispatch(setUsers(usersRes.data));
   } catch (e) {
-    console.log(e);
     dispatch(uiActions.setErrorMessage(e.message, 'Get users Error'));
   } finally {
     dispatch(uiActions.toggleLoader(false));
@@ -114,9 +108,7 @@ export const deleteUser = userId => async (dispatch, getState) => {
     } = getState();
     dispatch(uiActions.toggleLoader(true));
     const deleteRes = await userApi.deleteUser(userId, token);
-    console.log(deleteRes);
   } catch (e) {
-    console.log(e);
     dispatch(uiActions.setErrorMessage(e.message, 'Delete users Error'));
   } finally {
     dispatch(uiActions.toggleLoader(false));

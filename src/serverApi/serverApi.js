@@ -1,5 +1,5 @@
-const baseUrl = 'http://10.0.0.57:5000';
-// let baseUrl = 'https://er-assist.herokuapp.com';
+// const baseUrl = 'http://10.0.0.57:5000';
+const baseUrl = 'https://comment-on-everything.herokuapp.com';
 
 export const get = async (url, auth = '') => {
   return fetch(baseUrl + url, {
@@ -73,7 +73,6 @@ export const handleResult = async (
 ) => {
   const resData = await res.json();
   if (res && resData && res.status < 400) {
-    // console.log('response', resData);
     return resData;
   }
   if (customMessage) throw new Error(customMessage);
