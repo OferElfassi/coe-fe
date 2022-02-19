@@ -16,6 +16,22 @@ export const resetUser = () => ({
   type: actionTypes.RESET_USER,
   payload: null,
 });
+export const setUsers = users => ({
+  type: actionTypes.SET_USERS,
+  payload: {users},
+});
+export const removeUser = userIndex => ({
+  type: actionTypes.REMOVE_USER,
+  payload: {userIndex},
+});
+export const updateUser = (userInfo, userIndex) => ({
+  type: actionTypes.UPDATE_USER,
+  payload: {userInfo, userIndex},
+});
+export const insertOwnPost = post => ({
+  type: actionTypes.INSERT_OWN_POST,
+  payload: {post},
+});
 
 export const updateInfo = userInfo => async (dispatch, getState) => {
   try {
@@ -40,6 +56,20 @@ export const updateInfo = userInfo => async (dispatch, getState) => {
     dispatch(uiActions.toggleLoader(false));
   }
 };
+export const updateUserDetails =
+  (updatedUser, userId) => async (dispatch, getState) => {
+    try {
+      const {
+        auth: {token},
+      } = getState();
+      dispatch(uiActions.toggleLoader(true));
+      await userApi.updateUserInfo(userId, updatedUser, token);
+    } catch (e) {
+      dispatch(uiActions.setErrorMessage(e.message, 'Update User Error'));
+    } finally {
+      dispatch(uiActions.toggleLoader(false));
+    }
+  };
 
 export const updateProfilePic = file => async (dispatch, getState) => {
   try {
@@ -54,6 +84,40 @@ export const updateProfilePic = file => async (dispatch, getState) => {
     dispatch(uiActions.setTimedMessage('', 'Update Image success', 'success'));
   } catch (e) {
     dispatch(uiActions.setErrorMessage(e.message, 'Update Info Error'));
+  } finally {
+    dispatch(uiActions.toggleLoader(false));
+  }
+};
+
+export const getUsers = () => async (dispatch, getState) => {
+  try {
+    const {
+      auth: {token},
+    } = getState();
+    dispatch(uiActions.toggleLoader(true));
+    const usersRes = await userApi.getUsers(token);
+    console.log(usersRes);
+    dispatch(setUsers(usersRes.data));
+  } catch (e) {
+    console.log(e);
+    dispatch(uiActions.setErrorMessage(e.message, 'Get users Error'));
+  } finally {
+    dispatch(uiActions.toggleLoader(false));
+  }
+};
+
+export const deleteUser = userId => async (dispatch, getState) => {
+  try {
+    const {
+      auth: {token},
+      user: {manage},
+    } = getState();
+    dispatch(uiActions.toggleLoader(true));
+    const deleteRes = await userApi.deleteUser(userId, token);
+    console.log(deleteRes);
+  } catch (e) {
+    console.log(e);
+    dispatch(uiActions.setErrorMessage(e.message, 'Delete users Error'));
   } finally {
     dispatch(uiActions.toggleLoader(false));
   }

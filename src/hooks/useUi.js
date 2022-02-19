@@ -21,6 +21,9 @@ export default function useUi() {
   const toggleNewPostModal = state => {
     dispatch(uiActions.toggleNewPostModal(state));
   };
+  const toggleParamError = state => {
+    dispatch(uiActions.toggleParamError(state));
+  };
 
   return {
     /** @type {uiState} */
@@ -30,6 +33,7 @@ export default function useUi() {
       toggleLoader: useCallback(toggleLoader, []),
       setErrorMessage: useCallback(setErrorMessage, []),
       toggleNewPostModal: useCallback(toggleNewPostModal, []),
+      toggleParamError: useCallback(toggleParamError, []),
     },
   };
 }

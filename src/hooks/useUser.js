@@ -13,6 +13,16 @@ export default function useUser() {
   const updateProfilePic = userInfo => {
     dispatch(userActions.updateProfilePic(userInfo));
   };
+  const getUsers = () => {
+    dispatch(userActions.getUsers());
+  };
+  const deleteUser = userId => {
+    dispatch(userActions.deleteUser(userId));
+  };
+
+  const updateUserDetails = (userInfo, userId) => {
+    dispatch(userActions.updateUserDetails(userInfo, userId));
+  };
 
   return {
     /** @type {userState} */
@@ -20,6 +30,9 @@ export default function useUser() {
     userActions: {
       updateInfo: useCallback(updateInfo, []),
       updateProfilePic: useCallback(updateProfilePic, []),
+      getUsers: useCallback(getUsers, []),
+      deleteUser: useCallback(deleteUser, []),
+      updateUserDetails: useCallback(updateUserDetails, []),
     },
   };
 }

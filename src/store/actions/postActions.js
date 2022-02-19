@@ -1,5 +1,6 @@
 import * as actionTypes from '../actionTypes';
 import * as uiActions from './uiActions';
+import * as userActions from './userActions';
 import * as postApi from '../../serverApi/rest/postApi';
 import * as hashtagApi from '../../serverApi/rest/hashtagApi';
 
@@ -32,6 +33,30 @@ const setNewPost = postData => ({
   payload: {postData},
 });
 
+const insertPost = post => ({
+  type: actionTypes.INSERT_POST,
+  payload: {post},
+});
+
+const setSinglePost = post => ({
+  type: actionTypes.SET_SINGLE_POST,
+  payload: {post},
+});
+
+export const getSinglePost =
+  (postId, navigateFn) => async (dispatch, getState) => {
+    try {
+      dispatch(uiActions.toggleLoader(true));
+      const postRes = await postApi.getPost(postId);
+      console.log({postRes});
+      dispatch(setSinglePost(postRes.data));
+    } catch (e) {
+      navigateFn();
+      dispatch(uiActions.toggleParamError(true));
+    } finally {
+      dispatch(uiActions.toggleLoader(false));
+    }
+  };
 export const getFeedPageData = () => async (dispatch, getState) => {
   try {
     const {
@@ -144,11 +169,11 @@ export const addNewPost = postData => async (dispatch, getState) => {
   try {
     const {
       auth: {token},
-      post: {posts},
     } = getState();
     dispatch(uiActions.toggleLoader(true));
     const newPostRes = await postApi.postPost(postData, token);
-    console.log({newPostRes});
+    dispatch(insertPost(newPostRes.data));
+    dispatch(userActions.insertOwnPost(newPostRes.data));
   } catch (e) {
     dispatch(uiActions.setErrorMessage(e.message, 'Post new Review Error'));
   } finally {

@@ -25,6 +25,9 @@ export default function usePost() {
   const addNewPost = postData => {
     dispatch(postActions.addNewPost(postData));
   };
+  const getSinglePost = (postId, navigateFn) => {
+    dispatch(postActions.getSinglePost(postId, navigateFn));
+  };
 
   return {
     /** @type {postState} */
@@ -36,6 +39,7 @@ export default function usePost() {
       removeReaction: useCallback(removeReaction, []),
       postNewImage: useCallback(postNewImage, []),
       addNewPost: useCallback(addNewPost, []),
+      getSinglePost: useCallback(getSinglePost, []),
     },
   };
 }

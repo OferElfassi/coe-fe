@@ -1,5 +1,10 @@
 import * as serverApi from '../serverApi';
 
+export const getPost = async postId => {
+  const res = await serverApi.get(`/api/posts/${postId}`);
+  return serverApi.handleResult(res, 'Get posts Error');
+};
+
 export const getPosts = async () => {
   const res = await serverApi.get('/api/posts');
   return serverApi.handleResult(res, 'Get posts Error');

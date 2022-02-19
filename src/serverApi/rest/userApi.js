@@ -16,3 +16,13 @@ export const getUser = async userId => {
   const res = await serverApi.get(`/api/users/${userId}`);
   return serverApi.handleResult(res, 'Get User Error');
 };
+
+export const getUsers = async token => {
+  const res = await serverApi.get(`/api/users`, token);
+  return serverApi.handleResult(res, 'Get Users Error');
+};
+
+export const deleteUser = async (useId, token) => {
+  const res = await serverApi.apiDelete(`/api/users/${useId}`, token);
+  return serverApi.handleResult(res, 'Get Users Error');
+};

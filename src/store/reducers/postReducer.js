@@ -50,9 +50,10 @@ import * as actionTypes from '../actionTypes';
 /**
  postState definition
  @typedef {Object} postState
- @property {Object[]} posts
+ @property {post[]} posts
  @property {hashtag[]} hashtags
  @property {newPost} newPost
+ @property {post} singlePost
  */
 const initialState = {
   posts: [],
@@ -63,6 +64,15 @@ const initialState = {
     matches: [],
     hashtag: '',
     description: '',
+  },
+  singlePost: {
+    image: {url: ''},
+    user: {id: '', fullName: '', image: {url: ''}},
+    description: '',
+    createdAt: '',
+    hashtag: {title: '', id: ''},
+    reactions: [],
+    comments: [],
   },
 };
 
@@ -86,6 +96,15 @@ export const postReducer = produce(
         break;
       case actionTypes.INSERT_COMMENT:
         draft.posts[payload.postIndex].comments.push(payload.comment);
+        break;
+      case actionTypes.SET_NEW_POST:
+        Object.assign(draft.newPost, payload.postData);
+        break;
+      case actionTypes.INSERT_POST:
+        draft.posts.push(payload.post);
+        break;
+      case actionTypes.SET_SINGLE_POST:
+        Object.assign(draft.singlePost, payload.post);
         break;
       default:
         break;

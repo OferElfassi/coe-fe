@@ -10,12 +10,17 @@ export const setModal = modalState => ({
 });
 export const toggleNewPostModal = state => ({
   type: actionTypes.TOGGLE_NEW_POST_MODAL,
-  payload: state,
+  payload: {state},
 });
 
 export const setPostBtnsState = btnsState => ({
   type: actionTypes.SET_POST_BTNS_STATE,
   payload: btnsState,
+});
+
+export const toggleParamError = state => ({
+  type: actionTypes.TOGGLE_PARAM_ERROR,
+  payload: {state},
 });
 
 export const setActivePage = activePage => {

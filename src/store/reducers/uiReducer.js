@@ -48,6 +48,7 @@ import * as actionTypes from '../actionTypes';
  @property {newPostModal} newPostModal
  @property {postBtns} postBtns
  @property {modal} modal
+ @property {boolean} paramError
  */
 
 const initialState = {
@@ -65,6 +66,7 @@ const initialState = {
   loader: {
     show: false,
   },
+  paramError: false,
   modal: {
     modalVisible: false,
     modalText: '',
@@ -93,6 +95,9 @@ export const uiReducer = produce((/** uiState */ draft, {type, payload}) => {
       break;
     case actionTypes.TOGGLE_NEW_POST_MODAL:
       draft.newPostModal.show = payload.state;
+      break;
+    case actionTypes.TOGGLE_PARAM_ERROR:
+      draft.paramError = payload.state;
       break;
     default:
       break;
