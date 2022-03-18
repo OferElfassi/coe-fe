@@ -101,7 +101,7 @@ export const postReducer = produce(
         Object.assign(draft.newPost, payload.postData);
         break;
       case actionTypes.INSERT_POST:
-        draft.posts.push(payload.post);
+        draft.posts.unshift(payload.post);
         break;
       case actionTypes.SET_SINGLE_POST:
         Object.assign(draft.singlePost, payload.post);

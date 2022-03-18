@@ -4,9 +4,11 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Typography from '@mui/material/Typography';
+import {useNavigate} from 'react-router-dom';
 import usePost from '../../../../../../hooks/usePost';
 
 function Matches() {
+  const navigate = useNavigate();
   const {postState} = usePost();
   return (
     <Box
@@ -39,7 +41,9 @@ function Matches() {
         {postState.newPost.matches.map(item => {
           if (item.hashtag.title && item.image.url && item.id) {
             return (
-              <ImageListItem key={item.id}>
+              <ImageListItem
+                key={item.id}
+                onClick={() => navigate(`/posts/${item.id}`)}>
                 <img alt="" src={item.image.url} loading="lazy" />
                 <ImageListItemBar title={item.hashtag.title} />
               </ImageListItem>
